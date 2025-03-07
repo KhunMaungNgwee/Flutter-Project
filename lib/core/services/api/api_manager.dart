@@ -53,7 +53,6 @@ class ApiManager {
       switch (callType) {
         case ApiCallType.GET:
           response = await http.get(uri, headers: headers);
-          print(response.body);
           break;
         case ApiCallType.POST:
           response =

@@ -10,7 +10,7 @@ class CustomTextField extends StatefulWidget {
   final FocusNode focusNode;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.leadingIcon,
@@ -18,7 +18,7 @@ class CustomTextField extends StatefulWidget {
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -48,16 +48,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
         fillColor: Colors.grey[200], // Light grey background
         suffixIcon: widget.obscureText
             ? IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,
-            color: Colors.grey,
-          ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-        )
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              )
             : null, // Show the eye icon only when obscureText is true
         // Set the border to none and apply rounded corners
         border: OutlineInputBorder(

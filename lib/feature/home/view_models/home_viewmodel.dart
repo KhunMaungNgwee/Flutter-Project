@@ -1,16 +1,14 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:todo/core/services/api/api_service.dart';
-import 'package:todo/feature/auth/view_models/auth_viewmodel.dart';
+import 'package:todo/feature/auth/models/user_response.dart';
 import 'package:todo/feature/home/models/content_response.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final ApiService _apiService;
-  List<ContentResponse>? _contents;
-  List<ContentResponse>? get contents => _contents;
+  List<ContentModel>? _contents;
+  List<ContentModel>? get contents => _contents;
 
   HomeViewModel({
     required ApiService apiService,
@@ -19,12 +17,8 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> allContents(
       int userId, String companyId, BuildContext context) async {
     try {
-      final data =
+      _contents =
           await _apiService.homeService.getAllContents(userId, companyId);
-      print(data);
-      if (data is List) {
-        _contents = data.map((item) => ContentResponse.fromJson(item)).toList();
-      }
       notifyListeners();
     } catch (e) {
       String errorMessage = e is SocketException
@@ -33,6 +27,48 @@ class HomeViewModel extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMessage)),
       );
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateProfile(
+      ProfileResponse userData, BuildContext context) async {
+    try {
+      debugPrint("Updating profile with: ${userData.toJson()}"); // ✅ Debug log
+
+      await _apiService.homeService.updateUserProfile(userData);
+
+      // ✅ Update local profile data
+      userData.profilePic = ProfilePic(
+        base64: userData.profilePic?.base64,
+        fileName: userData.profilePic?.fileName,
+        url: userData.profilePic?.url, // Keep URL if returned
+      );
+
+      notifyListeners(); // ✅ Ensure UI updates
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully!')),
+      );
+    } catch (e) {
+      debugPrint("Update Profile Error: $e");
+    }
+  }
+
+  Future<String> getUserProfilePic(int userID, BuildContext context) async {
+    try {
+      String data = await _apiService.homeService.getUserProfilePic(userID);
+      notifyListeners();
+      return data;
+    } catch (e) {
+      String errorMessage = e is SocketException
+          ? "Network error"
+          : "Invalid user profile api Response";
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+      throw Exception(e);
     } finally {
       notifyListeners();
     }

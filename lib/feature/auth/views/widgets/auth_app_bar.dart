@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String logoPath;
 
-  AuthAppBar({required this.logoPath});
+  const AuthAppBar({super.key, required this.logoPath});
 
   @override
-  Size get preferredSize => const Size.fromHeight(360.0);
+  Size get preferredSize => const Size.fromHeight(300.0);
 
   @override
   Widget build(BuildContext context) {

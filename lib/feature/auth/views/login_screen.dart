@@ -5,21 +5,23 @@ import 'package:todo/feature/auth/views/widgets/auth_app_bar.dart';
 import 'package:todo/feature/auth/views/widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewModel>(context);
 
     // Controllers for each input field
-    final TextEditingController abbreviationController = TextEditingController();
+    final TextEditingController abbreviationController =
+        TextEditingController();
     final TextEditingController fullNameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       appBar: AuthAppBar(logoPath: 'lib/core/resources/images/seed_logo.png'),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // To space the form and the version text
+        mainAxisAlignment: MainAxisAlignment
+            .spaceBetween, // To space the form and the version text
         children: [
           const Expanded(
             child: LoginForm(), // Your login form

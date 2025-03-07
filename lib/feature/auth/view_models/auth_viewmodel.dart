@@ -89,7 +89,6 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
       GoRouter.of(context).go('/home');
     } catch (e) {
-      print(e);
       String errorMessage = e is SocketException
           ? "Network error, please check your internet connection."
           : "Invalid credentials, please check and try again.";
@@ -101,6 +100,21 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
     }
     return _user;
+  }
+
+  void updateUserName(String prefix, String newFirstName, String newLastName,
+      String gender, String email) {
+    final fullName = '$prefix $newFirstName $newLastName';
+    if (_user != null) {
+      _user!.fullName = fullName;
+      _user!.firstName = newFirstName;
+      _user!.lastName = newLastName;
+      _user!.prefix = prefix;
+      _user!.gender = gender;
+      _user!.email = email;
+      notifyListeners();
+    }
+    notifyListeners();
   }
 
   Future<void> logout() async {

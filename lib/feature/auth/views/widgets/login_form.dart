@@ -5,7 +5,7 @@ import 'package:todo/core/utils/form_validators.dart';
 import 'custom_text_field.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -36,11 +36,12 @@ class _LoginFormState extends State<LoginForm> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 80, 40, 16),
+        padding: const EdgeInsets.fromLTRB(40, 50, 40, 16),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center, // Align widgets horizontally to the center
+            crossAxisAlignment: CrossAxisAlignment
+                .center, // Align widgets horizontally to the center
             children: [
               // Centered title
               const Center(
@@ -59,7 +60,8 @@ class _LoginFormState extends State<LoginForm> {
                 hintText: 'Company Code',
                 controller: abbreviationController,
                 focusNode: abbreviationFocusNode,
-                validator: (value) => FormValidators.required(value, fieldName: 'Company Code'),
+                validator: (value) =>
+                    FormValidators.required(value, fieldName: 'Company Code'),
                 leadingIcon: Icon(Icons.cases_outlined),
               ),
               const SizedBox(height: 16),
@@ -68,7 +70,8 @@ class _LoginFormState extends State<LoginForm> {
                 hintText: 'Full Name',
                 controller: fullNameController,
                 focusNode: fullNameFocusNode,
-                validator: (value) => FormValidators.required(value, fieldName: 'Full Name'),
+                validator: (value) =>
+                    FormValidators.required(value, fieldName: 'Full Name'),
                 leadingIcon: const Icon(Icons.person),
               ),
               const SizedBox(height: 16),
@@ -77,7 +80,8 @@ class _LoginFormState extends State<LoginForm> {
                 hintText: 'Password',
                 controller: passwordController,
                 focusNode: passwordFocusNode,
-                validator: (value) => FormValidators.required(value, fieldName: 'Password'),
+                validator: (value) =>
+                    FormValidators.required(value, fieldName: 'Password'),
                 obscureText: true,
                 leadingIcon: const Icon(Icons.lock),
               ),
@@ -108,18 +112,21 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: authViewModel.isLoading
                         ? null
                         : () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        final abbreviation = abbreviationController.text;
-                        final fullName = fullNameController.text;
-                        final password = passwordController.text;
+                            if (_formKey.currentState?.validate() ?? false) {
+                              final abbreviation = abbreviationController.text;
+                              final fullName = fullNameController.text;
+                              final password = passwordController.text;
 
-                        authViewModel.login(abbreviation, fullName, password, context);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please fill in all fields correctly')),
-                        );
-                      }
-                    },
+                              authViewModel.login(
+                                  abbreviation, fullName, password, context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Please fill in all fields correctly')),
+                              );
+                            }
+                          },
                     child: authViewModel.isLoading
                         ? const CircularProgressIndicator()
                         : const Text('Login'),

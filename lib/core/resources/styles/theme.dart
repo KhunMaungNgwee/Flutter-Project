@@ -76,6 +76,8 @@ class AppTheme {
 
 // Example AppBar with Gradient
 class GradientAppBarScreen extends StatelessWidget {
+  const GradientAppBarScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
